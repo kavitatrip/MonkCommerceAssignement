@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Search, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { API_KEY } from '../utilities/constant';
-import "../picker.css";
+import "./picker.css";
 
 const ProductPicker = ({ isOpen, onClose, onSelect }) => {
   const [products, setProducts] = useState([]);
