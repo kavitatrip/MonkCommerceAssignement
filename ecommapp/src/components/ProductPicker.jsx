@@ -1,46 +1,63 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Search, X, ChevronDown, ChevronUp } from 'lucide-react';
 import './picker.css';
-// import { API_KEY } from '../utilities/constant';
+import {API_KEY} from "../utilities/constant"
 
-const ProductModal = ({ isOpen, onClose, onSelect }) => {
+const ProductPicker = ({ isOpen, onClose, onSelect }) => {
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState('');
-  const [page, setPage] = useState(0); 
+  const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState({}); 
+  const [expanded, setExpanded] = useState({});
+  const observer = useRef();
 
   const fetchProducts = useCallback(async (isInitial = false) => {
     if (loading) return;
     setLoading(true);
+    const currentPage = isInitial ? 0 : page;
     
-    const targetPage = isInitial ? 0 : page;
-    const API_KEY = import.meta.env.VITE_MONK_API_KEY;
-
     try {
-      const response = await fetch(
-        `https://stageapi.monkcommerce.app/task/products/search?search=${search}&page=${targetPage}&limit=10`,
-        { headers: { "x-api-key": API_KEY } }
+      const res = await fetch(
+        `https://stageapi.monkcommerce.app/task/products/search?search=${search}&page=${currentPage}&limit=10`,
+        { headers: { "x-api-key": API_KEY} }
       );
-      const data = await response.json();
+      const data = await res.json();
       
       setProducts(prev => isInitial ? data : [...prev, ...data]);
-      setPage(targetPage + 1);
+      setPage(currentPage + 1);
     } catch (err) {
-      console.error("Fetch failed", err);
-    } finally {
-      setLoading(false);
+      console.error("API Error", err);
     }
+    setLoading(false);
   }, [search, page, loading]);
 
+  // Initial load or search load
   useEffect(() => {
     if (isOpen) fetchProducts(true);
   }, [isOpen, search]);
 
-  const handleSelect = () => {
-    const firstId = Object.keys(selected).find(id => selected[id]?.length > 0);
-    if (firstId) {
-      const p = products.find(prod => prod.id === parseInt(firstId));
+  // Infinite Scroll Observer
+  const lastElementRef = useCallback(node => {
+    if (loading) return;
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        fetchProducts(false);
+      }
+    });
+    if (node) observer.current.observe(node);
+  }, [loading, fetchProducts]);
+
+  const handleProductCheck = (p) => {
+    const isAll = selected[p.id]?.length === p.variants.length;
+    setSelected({ ...selected, [p.id]: isAll ? [] : p.variants.map(v => v.id) });
+  };
+
+  const handleAdd = () => {
+    const firstSelectedId = Object.keys(selected).find(id => selected[id]?.length > 0);
+    if (firstSelectedId) {
+      const p = products.find(prod => prod.id === parseInt(firstSelectedId));
       onSelect({ ...p, variants: p.variants.filter(v => selected[p.id].includes(v.id)) });
     }
   };
@@ -50,39 +67,53 @@ const ProductModal = ({ isOpen, onClose, onSelect }) => {
   return (
     <div className="monk-modal-overlay">
       <div className="monk-modal-container">
-        <div className="m-header">
-          <h3>Select Products</h3>
-          <X onClick={onClose} className="pointer" />
+        <div className="monk-modal-header">
+            <h3>Select Products</h3>
+            <X onClick={onClose} className="monk-pointer" />
         </div>
-        <div className="m-search">
-          <Search className="s-icon" size={16} />
+        <div className="monk-modal-search">
+          <Search className="monk-s-icon" size={16} />
           <input 
             placeholder="Search product" 
+            autoFocus
             onChange={e => { setSearch(e.target.value); setPage(0); }} 
           />
         </div>
-        <div className="m-body">
-          {products.map(p => (
-            <div key={p.id} className="p-row">
-              <input 
-                type="checkbox" 
-                onChange={() => setSelected({...selected, [p.id]: p.variants.map(v => v.id)})} 
-              />
-              <img src={p.image?.src} alt="" className="m-thumb" />
-              <span>{p.title}</span>
+        <div className="monk-modal-body">
+          {products.map((p, index) => (
+            <div key={`${p.id}-${index}`} ref={index === products.length - 1 ? lastElementRef : null} className="monk-p-group">
+              <div className="monk-p-row">
+                <input type="checkbox" onChange={() => handleProductCheck(p)} checked={selected[p.id]?.length === p.variants.length} />
+                <img src={p.image?.src || 'https://via.placeholder.com/40'} alt="" className="monk-thumb" />
+                <span className="monk-p-name">{p.title}</span>
+                <button className="monk-expand-btn" onClick={() => setExpanded({...expanded, [p.id]: !expanded[p.id]})}>
+                  {expanded[p.id] ? <ChevronUp /> : <ChevronDown />}
+                </button>
+              </div>
+              {expanded[p.id] && p.variants.map(v => (
+                <div key={v.id} className="monk-v-row">
+                  <input type="checkbox" checked={selected[p.id]?.includes(v.id)} onChange={() => {
+                    const current = selected[p.id] || [];
+                    setSelected({...selected, [p.id]: current.includes(v.id) ? current.filter(i => i !== v.id) : [...current, v.id]});
+                  }} />
+                  <span className="monk-v-name">{v.title}</span>
+                  <span className="monk-v-price">${v.price}</span>
+                </div>
+              ))}
             </div>
           ))}
-          <button className="m-load" onClick={() => fetchProducts(false)}>
-            {loading ? "Loading..." : "Load More"}
-          </button>
+          {loading && <div className="monk-loading">Fetching items...</div>}
         </div>
-        <div className="m-footer">
-          <button className="m-btn-cancel" onClick={onClose}>Cancel</button>
-          <button className="m-btn-add" onClick={handleSelect}>Add</button>
+        <div className="monk-modal-footer">
+          <div className="selected-count">{Object.values(selected).flat().length} Selected</div>
+          <div className="footer-btns">
+            <button className="monk-btn-cancel" onClick={onClose}>Cancel</button>
+            <button className="monk-btn-add" onClick={handleAdd}>Add</button>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default ProductModal;
+export default ProductPicker;
