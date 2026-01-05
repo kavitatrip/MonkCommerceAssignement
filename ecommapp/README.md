@@ -1,16 +1,69 @@
-# React + Vite
+# ecommapp — Simple README
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Minimal React app built with Vite. This README shows how to run locally, build for production, and deploy to Vercel.
 
-Currently, two official plugins are available:
+## Quick start
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Install dependencies and run the dev server:
 
-## React Compiler
+```bash
+cd ecommapp
+npm install
+npm run dev
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Open http://localhost:5173
 
-## Expanding the ESLint configuration
+## Useful scripts
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- `npm run dev` — start dev server
+- `npm run build` — build production files into `dist`
+- `npm run preview` — preview the built app locally
+
+## Build & serve locally
+
+```bash
+cd ecommapp
+npm run build
+npx serve dist
+# open http://localhost:3000
+```
+
+## Vercel deployment (recommended settings)
+
+If your Vercel deployment returns 404 pages, ensure the Vercel project is configured to build the `ecommapp` folder and serve the `dist` output.
+
+- **Root Directory**: `ecommapp`
+- **Build Command**: `npm run build`
+- **Output Directory**: `dist`
+
+Notes:
+- This project uses client-side routing. A safe in-app fallback (already applied) is to use `HashRouter` in `src/App.jsx`, which avoids server rewrite issues. If you keep `BrowserRouter`, make sure Vercel rewrites all routes to `index.html` or use `vercel.json`/redirects.
+
+## Where to look
+
+- Main entry: `src/main.jsx`
+- App router: `src/App.jsx`
+- Components: `src/components/`
+
+---
+If you'd like, I can revert to `BrowserRouter` after you confirm Vercel is pointed at `ecommapp`, or I can add a short deploy checklist file for Vercel.
+
+## Vercel deployment (recommended settings)
+
+If you deploy this project to Vercel and you see a 404, ensure Vercel builds the `ecommapp` subfolder and serves the `dist` output. Use these settings in the Vercel project configuration:
+
+- **Root Directory**: `ecommapp`
+- **Build Command**: `npm run build`
+- **Output Directory**: `dist`
+
+To validate locally:
+```bash
+cd ecommapp
+npm install
+npm run build
+npx serve dist
+# then open http://localhost:3000
+```
+
+If you prefer not to change Vercel settings, a fallback in-app fix is to use `HashRouter` instead of `BrowserRouter` in `src/App.jsx` (already applied in this repo). `HashRouter` avoids server-side rewrites by keeping routes after `#` in the client.
