@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Search, X, ChevronDown, ChevronUp } from 'lucide-react';
-import './picker.css';
 import { API_KEY } from '../utilities/constant';
+import "../picker.css";
 
 const ProductPicker = ({ isOpen, onClose, onSelect }) => {
   const [products, setProducts] = useState([]);
@@ -32,12 +32,11 @@ const ProductPicker = ({ isOpen, onClose, onSelect }) => {
     setLoading(false);
   }, [search, page, loading]);
 
-  // Initial load or search load
+
   useEffect(() => {
     if (isOpen) fetchProducts(true);
   }, [isOpen, search]);
 
-  // Infinite Scroll Observer
   const lastElementRef = useCallback(node => {
     if (loading) return;
     if (observer.current) observer.current.disconnect();
