@@ -4,7 +4,7 @@ import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from 
 import { arrayMove, SortableContext, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import ProductPicker from './ProductPicker';
-import "../app.css";
+import "../App.css";
 
 const SortableRow = ({ id, index, row, onOpenModal, onToggleDiscount, onRemoveRow, onUpdateDiscount, rowCount }) => {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
