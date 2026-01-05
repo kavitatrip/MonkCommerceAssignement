@@ -1,0 +1,321 @@
+/* Layout & Page */
+.monk-app-wrapper {
+  background: #f9fafb;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+}
+.monk-top-header {
+  background: white;
+  border-bottom: 1px solid #dfe3e8;
+  padding: 12px 40px;
+  color: #637381;
+  font-weight: 500;
+}
+.monk-main-body {
+  padding: 40px 15%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.monk-title-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 30px;
+}
+.monk-title-section h1 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #202223;
+}
+.monk-support-links {
+  font-size: 14px;
+  color: #6d7175;
+  text-decoration: underline;
+}
+
+/* Main Card & Elements */
+.monk-card {
+  background: white;
+  padding: 30px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.monk-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+.monk-info-banner {
+  background: #fdfae5;
+  border: 1px solid #efe3b0;
+  padding: 12px;
+  display: flex;
+  gap: 10px;
+  font-size: 14px;
+  margin-bottom: 30px;
+  border-radius: 4px;
+}
+.monk-info-icon {
+  background: #eab308;
+  color: white;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+/* Row UI */
+.row-item-container {
+  margin-bottom: 15px;
+}
+.row-main-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.drag-icon-wrapper {
+  cursor: grab;
+  padding: 5px;
+}
+.row-number-label {
+  width: 20px;
+  font-size: 15px;
+  color: #6d7175;
+}
+.product-display-field {
+  flex: 1;
+  border: 1px solid #c4cdd5;
+  padding: 10px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.text-placeholder {
+  color: #8c9196;
+}
+.text-black {
+  color: #202223;
+}
+.pencil-icon {
+  color: #8c9196;
+}
+.add-discount-green-btn {
+  background: #008060;
+  color: white;
+  border: none;
+  padding: 11px 25px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Discount Controls */
+.discount-input-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.disc-val-input,
+.disc-type-select {
+  padding: 9px;
+  border: 1px solid #c4cdd5;
+  border-radius: 4px;
+  width: 75px;
+}
+.disc-type-select {
+  width: 95px;
+}
+.remove-cross {
+  color: #8c9196;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+/* Variant UI */
+.variant-tags-container {
+  margin-left: 65px;
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.variant-chip-blue {
+  background: #e1f5fe;
+  color: #0288d1;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  border: 1px solid #b3e5fc;
+}
+
+/* Outline Button */
+.monk-add-product-outline {
+  border: 2px solid #008060;
+  color: #008060;
+  background: transparent;
+  padding: 12px 60px;
+  font-weight: 700;
+  margin-left: 55px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-top: 15px;
+}
+
+/* Checkboxes & Footer */
+.monk-compare-check {
+  margin-top: 30px;
+  border-top: 1px solid #dfe3e8;
+  padding-top: 20px;
+}
+.monk-compare-check label {
+  font-size: 14px;
+  color: #202223;
+  font-weight: 500;
+  cursor: pointer;
+}
+.monk-compare-check label span {
+  color: #8c9196;
+  margin-left: 5px;
+  cursor: help;
+}
+.check-hint {
+  font-size: 12px;
+  color: #6d7175;
+  margin-left: 20px;
+  margin-top: 5px;
+}
+
+/* Advanced Customizations */
+.monk-advanced-section {
+  margin-top: 25px;
+  border-top: 1px solid #dfe3e8;
+  padding-top: 20px;
+}
+.advanced-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  color: #008060;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+.timer-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+/* Modal CSS (Consolidated) */
+.monk-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+.monk-modal-container {
+  background: white;
+  width: 100%;
+  max-width: 600px;
+  height: 80vh;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.monk-modal-header {
+  padding: 15px 25px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.monk-modal-search {
+  padding: 15px 25px;
+  border-bottom: 1px solid #eee;
+  position: relative;
+}
+.monk-modal-search input {
+  width: 100%;
+  padding: 10px 10px 10px 40px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+}
+.monk-s-icon {
+  position: absolute;
+  left: 35px;
+  top: 27px;
+  color: #999;
+}
+.monk-modal-body {
+  flex: 1;
+  overflow-y: auto;
+}
+.monk-p-row {
+  display: flex;
+  align-items: center;
+  padding: 12px 25px;
+  gap: 15px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.monk-thumb {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #eee;
+}
+.monk-p-name {
+  flex: 1;
+  font-size: 14px;
+}
+.monk-v-row {
+  display: flex;
+  align-items: center;
+  padding: 10px 25px 10px 65px;
+  background: #fafafa;
+  border-bottom: 1px solid #f0f0f0;
+}
+.monk-v-name {
+  flex: 1;
+  font-size: 13px;
+}
+.monk-modal-footer {
+  padding: 15px 25px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.monk-btn-add {
+  background: #008060;
+  color: white;
+  border: none;
+  padding: 9px 25px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.monk-btn-cancel {
+  background: white;
+  border: 1px solid #ccc;
+  padding: 9px 25px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.monk-loading {
+  padding: 20px;
+  text-align: center;
+  color: #008060;
+}
